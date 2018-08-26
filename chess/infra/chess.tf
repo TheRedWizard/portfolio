@@ -29,17 +29,6 @@ resource "aws_instance" "app" {
   key_name = "${var.keyname}"
   security_groups = ["${aws_security_group.app.name}"]
 
-  provisioner "file" {
-    source = "client/src/index.html"
-    destination = "/tmp/index.html"
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      private_key = "${file("/Users/ericcrook/pems/eric-dev.pem")}"
-    }
-  }
-
-
   provisioner "remote-exec" {
 
   inline = [
@@ -47,9 +36,10 @@ resource "aws_instance" "app" {
     "sudo yum update -y",
     "sudo yum install git -y",
     "sudo yum install nginx -y",
-    "sudo systemctl start nginx",
+    "git clone https://github.com/TheRedWizard/portfolio.git",
     "sudo rm -rf /usr/share/nginx/html/*",
-    "sudo cp /tmp/index.html /usr/share/nginx/html/index.html"
+    "sudo cp -R /home/ec2-user/portfolio/chess/client/src/* /usr/share/nginx/html/",
+    "sudo systemctl start nginx",
   ]
 
     connection {
