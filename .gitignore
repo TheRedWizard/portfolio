@@ -1,2 +1,4 @@
 #IGNORE ENVORMENT TERRAFORMS
 env.tf
+terraform.tfstate
+.terraform
