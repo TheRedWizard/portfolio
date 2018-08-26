@@ -49,3 +49,7 @@ resource "aws_instance" "app" {
     }
   }
 }
+
+output "serverurl" {
+  value = "${aws_instance.app.public_dns}"
+}
